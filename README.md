@@ -7,8 +7,10 @@ To start a new module from it:
 ## Install
 
 Instantiate the module with:
-
-    add-module ghcr.io/geniusdynamics/infisical:latest 1
+```shell
+  add-module ghcr.io/geniusdynamics/infisical:latest 1
+```
+  
 
 The output of the command will return the instance name.
 Output example:
@@ -27,7 +29,7 @@ Launch `configure-module`, by setting the following parameters:
 
 Example:
 
-```
+```shell
 api-cli run configure-module --agent module/infisical1 --data - <<EOF
 {
   "host": "infisical.domain.com",
@@ -44,22 +46,26 @@ The above command will:
 ## Get the configuration
 You can retrieve the configuration with
 
-```
+```shell
 api-cli run get-configuration --agent module/infisical1
 ```
 
 ## Uninstall
 
 To uninstall the instance:
-
-    remove-module --no-preserve infisical1
+```shell
+remove-module --no-preserve infisical1
+```
+    
 
 ## Update
 
 To Update the instance:
+```shell
+   api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/infisical:latest","instances":["infisical1"],"force":true}'
 
-    api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/infisical:latest","instances":["infisical1"],"force":true}'
-
+```
+ 
 ## Smarthost setting discovery
 
 Some configuration settings, like the smarthost setup, are not part of the
