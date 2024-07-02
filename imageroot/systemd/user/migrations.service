@@ -19,7 +19,6 @@ ExecStartPre=/bin/mkdir -p %S/state/restore/
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/migrations.pid \
     --cidfile %t/migrations.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/infisical.pod-id --replace -d --name migrations \
-    --volume redis-data:/data \
     ${INFISICAL_IMAGE} npm run migration:latest
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/migrations.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/migrations.ctr-id
