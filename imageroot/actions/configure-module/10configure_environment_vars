@@ -8,7 +8,9 @@
 import json
 import sys
 import agent
-
+import secrets
+import base64
+import hashlib
 # Try to parse the stdin as JSON.
 # If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
@@ -34,6 +36,57 @@ postgres_config = {
 # write it to .config/state/postgres.env
 agent.write_envfile(postgres_config, "postgres.env")
 
+# ENCRYPTION_KEY=6c1fe4e407b8911c104518103505b218
+#
+# # JWT
+# # Required secrets to sign JWT tokens
+# # THIS IS A SAMPLE AUTH_SECRET KEY AND SHOULD NEVER BE USED FOR PRODUCTION
+# AUTH_SECRET=5lrMXKKWCVocS/uerPsl7V+TX/aaUaI7iDkgl3tSmLE=
+#
+# # Website URL
+# # Required
+# SITE_URL=http://localhost:8080
+#
+# # Mail/SMTP
+# SMTP_HOST=
+# SMTP_PORT=
+# SMTP_NAME=
+# SMTP_USERNAME=
+# SMTP_PASSWORD=
+
+DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+REDIS_URL = "redis://redis-app:6379/0"
+# Generate AUTH_SECRET
+auth_secret_bytes = secrets.token_bytes(32)  # 32 bytes = 256 bits
+auth_secret = base64.b64encode(auth_secret_bytes).decode('utf-8')
+
+# Generate ENCRYPTION_KEY
+encryption_key_bytes = secrets.token_bytes(32)  # 32 bytes = 256 bits
+encryption_key = hashlib.sha256(encryption_key_bytes).hexdigest()
+
+rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
+SMTP_HOST = smtp_settings['host']
+SMTP_PORT = smtp_settings['port']
+SMTP_NAME = smtp_settings['username']
+SMTP_USERNAME = smtp_settings['username']
+SMTP_PASSWORD = smtp_settings['password']
+HOST = data.get("host", "")
+
+app_config = {
+    "DATABASE_URL": DATABASE_URL,
+    "REDIS_URL": REDIS_URL,
+    "AUTH_SECRET": auth_secret,
+    "ENCRYPTION_KEY": encryption_key,
+    "SITE_URL": "https://"+HOST,
+    "SMTP_HOST": SMTP_HOST,
+    "SMTP_PORT": SMTP_PORT,
+    "SMTP_NAME": SMTP_NAME,
+    "SMTP_USERNAME": SMTP_USERNAME,
+    "SMTP_PASSWORD": SMTP_PASSWORD,
+    "NODE_ENV": "production"
+}
+agent.write_envfile("app.env", app_config)
 
 # just before starting systemd unit
 #agent.dump_env()

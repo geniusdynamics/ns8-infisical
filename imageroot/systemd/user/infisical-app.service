@@ -6,7 +6,7 @@
 [Unit]
 Description=Podman  infisical-app.service
 BindsTo=infisical.service
-After=infisical.service postgresql-app.service
+After=infisical.service postgresql-app.service redis-app.service migrations.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -21,11 +21,8 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/infisical-app.pid \
     --cidfile %t/infisical-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/infisical.pod-id --replace -d --name  infisical-app \
-    --volume infisical-app:/var/www/html/:Z \
-    --volume ./config:/tmp:Z \
-    --env=NGINX_* \
-    --env 'CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/infisical"' \
-    ${NGINX_IMAGE}
+    --env-file=%S/state/app.env \
+    ${INFISICAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/infisical-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP infisical-app
 SyslogIdentifier=%u
