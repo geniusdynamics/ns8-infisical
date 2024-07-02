@@ -1,0 +1,32 @@
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+[Unit]
+Description=Podman migrations.service
+BindsTo=infisical.service
+After=infisical.service postgresql-app.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%S/state/environment
+# EnvironmentFile=%S/state/secrets/passwords.secret
+Restart=always
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/migrations.pid %t/migrations.ctr-id
+ExecStartPre=/bin/mkdir -p %S/state/restore/
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/migrations.pid \
+    --cidfile %t/migrations.ctr-id --cgroups=no-conmon \
+    --pod-id-file %t/infisical.pod-id --replace -d --name migrations \
+    --volume redis-data:/data \
+    ${INFISICAL_IMAGE} npm run migration:latest
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/migrations.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/migrations.ctr-id
+ExecReload=/usr/bin/podman kill -s HUP migrations
+SyslogIdentifier=%u
+PIDFile=%t/migrations.pid
+Type=forking
+
+[Install]
+WantedBy=default.target
