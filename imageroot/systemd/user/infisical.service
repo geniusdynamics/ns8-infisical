@@ -10,8 +10,8 @@
 
 [Unit]
 Description=Podman infisical.service
-Requires=postgresql-app.service infisical-app.service
-Before=postgresql-app.service infisical-app.service
+Requires=postgresql-app.service redis-app.service infisical-app.service
+Before=postgresql-app.service redis-app.service infisical-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
