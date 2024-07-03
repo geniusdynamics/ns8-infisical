@@ -67,7 +67,10 @@ app_config = {
     "SMTP_NAME": SMTP_NAME,
     "SMTP_USERNAME": SMTP_USERNAME,
     "SMTP_PASSWORD": SMTP_PASSWORD,
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "POSTGRES_DB":POSTGRES_DB,
+    "POSTGRES_USER": POSTGRES_USER,
+    "POSTGRES_PASSWORD": POSTGRES_PASSWORD,
 }
 agent.write_envfile("app.env", app_config)
 
