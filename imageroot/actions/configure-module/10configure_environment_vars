@@ -41,11 +41,15 @@ DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST
 REDIS_URL = "redis://redis-app:6379/0"
 # Generate AUTH_SECRET
 auth_secret_bytes = secrets.token_bytes(32)  # 32 bytes = 256 bits
-auth_secret = base64.b64encode(auth_secret_bytes).decode('utf-8')
+auth_secret = base64.urlsafe_b64encode(auth_secret_bytes).decode('utf-8')
 
 # Generate ENCRYPTION_KEY
-encryption_key_bytes = secrets.token_bytes(32)  # 32 bytes = 256 bits
+encryption_key_bytes = secrets.token_bytes(16)  # 16 bytes = 128 bits
 encryption_key = hashlib.sha256(encryption_key_bytes).hexdigest()
+
+# Print or use these values in your application
+print("Generated AUTH_SECRET:", auth_secret)
+print("Generated ENCRYPTION_KEY:", encryption_key)
 
 rdb = agent.redis_connect(use_replica=True)
 smtp_settings = agent.get_smarthost_settings(rdb)
@@ -59,8 +63,8 @@ HOST = data.get("host", "")
 app_config = {
     "DB_CONNECTION_URI": DATABASE_URL,
     "REDIS_URL": REDIS_URL,
-    "AUTH_SECRET": "5lrMXKKWCVocS/uerPsl7V+TX/aaUaI7iDkgl3tSmLE=",
-    "ENCRYPTION_KEY": "6c1fe4e407b8911c104518103505b218",
+    "AUTH_SECRET": auth_secret,
+    "ENCRYPTION_KEY": encryption_key,
     "SITE_URL": "https://"+HOST,
     "SMTP_HOST": SMTP_HOST,
     "SMTP_PORT": SMTP_PORT,
