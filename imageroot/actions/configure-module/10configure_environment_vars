@@ -34,25 +34,8 @@ postgres_config = {
     "POSTGRES_PORT": POSTGRES_PORT
 }
 # write it to .config/state/postgres.env
-agent.write_envfile(postgres_config, "postgres.env")
+agent.write_envfile("postgres.env", postgres_config)
 
-# ENCRYPTION_KEY=6c1fe4e407b8911c104518103505b218
-#
-# # JWT
-# # Required secrets to sign JWT tokens
-# # THIS IS A SAMPLE AUTH_SECRET KEY AND SHOULD NEVER BE USED FOR PRODUCTION
-# AUTH_SECRET=5lrMXKKWCVocS/uerPsl7V+TX/aaUaI7iDkgl3tSmLE=
-#
-# # Website URL
-# # Required
-# SITE_URL=http://localhost:8080
-#
-# # Mail/SMTP
-# SMTP_HOST=
-# SMTP_PORT=
-# SMTP_NAME=
-# SMTP_USERNAME=
-# SMTP_PASSWORD=
 
 DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 REDIS_URL = "redis://redis-app:6379/0"
