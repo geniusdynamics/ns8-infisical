@@ -34,7 +34,7 @@ postgres_config = {
     "POSTGRES_PORT": POSTGRES_PORT
 }
 # write it to .config/state/postgres.env
-agent.write_envfile("postgres.env", postgres_config)
+agent.write_envfile("database.env", postgres_config)
 
 
 DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
