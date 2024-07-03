@@ -57,7 +57,7 @@ SMTP_PASSWORD = smtp_settings['password']
 HOST = data.get("host", "")
 
 app_config = {
-    "DATABASE_URL": DATABASE_URL,
+    "DB_CONNECTION_URI": DATABASE_URL,
     "REDIS_URL": REDIS_URL,
     "AUTH_SECRET": auth_secret,
     "ENCRYPTION_KEY": encryption_key,
