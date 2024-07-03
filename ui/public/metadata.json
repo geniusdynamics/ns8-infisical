@@ -1,19 +1,23 @@
 {
   "name": "infisical",
   "description": {
-    "en": "My infisical module"
+    "en": "All-in-one platform to securely manage application configuration and secrets across your team and infrastructure."
   },
   "categories": [],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Kemboi Elvis",
+      "email": "kemboielvis@genius.ke"
+    },
+    {
+      "name": "Martin Bhuong",
+      "email": "martin@genius.ke"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.infisical.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-infisical"
+    "documentation_url": "https://infisical.com/",
+    "bug_url": "https://github.com/geniusdynamics/dev",
+    "code_url": "https://github.com/geniusdynamics/ns8-infisical"
   },
-  "source": "ghcr.io/nethserver/infisical"
+  "source": "ghcr.io/geniusdynamics/infisical"
 }
