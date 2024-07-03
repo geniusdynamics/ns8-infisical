@@ -59,8 +59,8 @@ HOST = data.get("host", "")
 app_config = {
     "DB_CONNECTION_URI": DATABASE_URL,
     "REDIS_URL": REDIS_URL,
-    "AUTH_SECRET": auth_secret,
-    "ENCRYPTION_KEY": encryption_key,
+    "AUTH_SECRET": "5lrMXKKWCVocS/uerPsl7V+TX/aaUaI7iDkgl3tSmLE=",
+    "ENCRYPTION_KEY": "6c1fe4e407b8911c104518103505b218",
     "SITE_URL": "https://"+HOST,
     "SMTP_HOST": SMTP_HOST,
     "SMTP_PORT": SMTP_PORT,
