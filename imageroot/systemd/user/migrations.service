@@ -6,7 +6,7 @@
 [Unit]
 Description=Podman migrations.service
 BindsTo=infisical.service
-After=infisical.service postgresql-app.service
+After=infisical.service postgresql-app.service redis-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
