@@ -22,6 +22,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/infisical-app.pid \
     --cidfile %t/infisical-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/infisical.pod-id --replace -d --name  infisical-app \
     --env-file=%S/state/app.env \
+    --env-file=%S/state/secrets.env \
     ${INFISICAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/infisical-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP infisical-app

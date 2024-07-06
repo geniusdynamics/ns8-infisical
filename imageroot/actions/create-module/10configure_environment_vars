@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import secrets
+import base64
+import hashlib
+import os
+# Try to parse the stdin as JSON.
+# If parsing fails, output everything to stderr
+data = json.load(sys.stdin)
+
+
+AUTH_SECRET = base64.b64encode(os.urandom(32)).decode('utf-8')
+
+# Generate ENCRYPTION_KEY
+
+ENCRYPTION_KEY = os.urandom(16).hex()
+
+
+app_config = {
+    "AUTH_SECRET":AUTH_SECRET,
+    "ENCRYPTION_KEY": ENCRYPTION_KEY,
+}
+agent.write_envfile("secrets.env", app_config)
+
+# just before starting systemd unit
+#agent.dump_env()

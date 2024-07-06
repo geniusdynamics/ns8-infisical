@@ -42,11 +42,6 @@ DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST
 REDIS_URL = "redis://redis-app:6379/0"
 # Generate AUTH_SECRET
 
-AUTH_SECRET = base64.b64encode(os.urandom(32)).decode('utf-8')
-
-# Generate ENCRYPTION_KEY
-
-ENCRYPTION_KEY = os.urandom(16).hex()
 
 
 
@@ -62,8 +57,6 @@ HOST = data.get("host", "")
 app_config = {
     "DB_CONNECTION_URI": DATABASE_URL,
     "REDIS_URL": REDIS_URL,
-    "AUTH_SECRET":AUTH_SECRET,
-    "ENCRYPTION_KEY": ENCRYPTION_KEY,
     "SITE_URL": "https://"+HOST,
     "SMTP_HOST": SMTP_HOST,
     "SMTP_PORT": SMTP_PORT,
