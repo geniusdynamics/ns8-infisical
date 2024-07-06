@@ -6,7 +6,7 @@
 [Unit]
 Description=Podman postgresql-app.service
 BindsTo=infisical.service
-After=infisical.service
+After=infisical.service redis-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
