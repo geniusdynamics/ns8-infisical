@@ -39,7 +39,7 @@ agent.write_envfile("database.env", postgres_config)
 
 
 DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-REDIS_URL = "redis://redis-app:6379/0"
+REDIS_URL = "redis://redis-app:6379"
 # Generate AUTH_SECRET
 
 
