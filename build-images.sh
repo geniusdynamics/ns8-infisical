@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="infisical"
-APP_VERSION="v0.77.1-postgres"
+APP_VERSION="v0.77.2-postgres"
 
 # Create a new empty container image
 container=$(buildah from scratch)
