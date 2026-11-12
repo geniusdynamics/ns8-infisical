@@ -6,17 +6,13 @@
   "categories": [],
   "authors": [
     {
-      "name": "Kemboi Elvis",
-      "email": "kemboielvis@genius.ke"
-    },
-    {
-      "name": "Martin Bhuong",
-      "email": "martin@genius.ke"
+      "name": "Genius Dynamics",
+      "email": "support@genius.ke"
     }
   ],
   "docs": {
     "documentation_url": "https://infisical.com/",
-    "bug_url": "https://github.com/geniusdynamics/dev",
+    "bug_url": "https://github.com/geniusdynamics/ns8-infisical/issues",
     "code_url": "https://github.com/geniusdynamics/ns8-infisical"
   },
   "source": "ghcr.io/geniusdynamics/infisical"

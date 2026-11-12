@@ -10,17 +10,17 @@ After=infisical.service redis-app.service postgresql-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-EnvironmentFile=%S/state/environment
-# EnvironmentFile=%S/state/secrets/passwords.secret
+EnvironmentFile=%E/state/environment
+# EnvironmentFile=%E/state/secrets/passwords.secret
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/migrations.pid %t/migrations.ctr-id
-ExecStartPre=/bin/mkdir -p %S/state/restore/
+ExecStartPre=/bin/mkdir -p %E/state/restore/
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/migrations.pid \
     --cidfile %t/migrations.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/infisical.pod-id --replace -d --name migrations \
-    --env-file=%S/state/app.env \
-    --env-file=%S/state/secrets.env \
+    --env-file=%E/state/app.env \
+    --env-file=%E/state/secrets.env \
     --workdir /backend \
     ${INFISICAL_IMAGE} npm run migration:latest
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/migrations.ctr-id -t 10

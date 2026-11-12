@@ -46,7 +46,6 @@ REDIS_URL = "redis://redis-app:6379"
 
 
 rdb = agent.redis_connect(use_replica=True)
-smtp_settings = agent.get_smarthost_settings(rdb)
 SMTP_HOST = smtp_settings['host']
 SMTP_PORT = smtp_settings['port']
 SMTP_NAME = smtp_settings['username']
