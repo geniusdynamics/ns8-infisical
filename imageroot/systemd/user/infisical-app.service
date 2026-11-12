@@ -10,19 +10,17 @@ After=infisical.service redis-app.service postgresql-app.service migrations.serv
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-EnvironmentFile=%S/state/environment
-EnvironmentFile=-%S/state/smarthost.env
-WorkingDirectory=%S/state
+EnvironmentFile=%E/state/environment
+WorkingDirectory=%E/state
 Restart=always
 TimeoutStopSec=300
 ExecStartPre=/bin/mkdir -p config
 ExecStartPre=/bin/rm -f %t/infisical-app.pid %t/infisical-app.ctr-id
-ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/infisical-app.pid \
     --cidfile %t/infisical-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/infisical.pod-id --replace -d --name  infisical-app \
-    --env-file=%S/state/app.env \
-    --env-file=%S/state/secrets.env \
+    --env-file=%E/state/app.env \
+    --env-file=%E/state/secrets.env \
     ${INFISICAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/infisical-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP infisical-app
