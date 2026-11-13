@@ -1,34 +1,30 @@
 #
-# Copyright (C) 2022 Nethesis S.r.l.
+# Copyright (C) 2026 Genius Dynamics
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+#
+# Run the Infisical database migrations to completion before the app starts.
+#
 [Unit]
-Description=Podman migrations.service
+Description=Infisical database migrations
 BindsTo=infisical.service
+Requires=postgresql-app.service
 After=infisical.service redis-app.service postgresql-app.service
 
 [Service]
+Type=oneshot
+RemainAfterExit=yes
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%E/state/environment
-# EnvironmentFile=%E/state/secrets/passwords.secret
-Restart=always
-TimeoutStopSec=70
-ExecStartPre=/bin/rm -f %t/migrations.pid %t/migrations.ctr-id
-ExecStartPre=/bin/mkdir -p %E/state/restore/
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/migrations.pid \
-    --cidfile %t/migrations.ctr-id --cgroups=no-conmon \
-    --pod-id-file %t/infisical.pod-id --replace -d --name migrations \
+TimeoutStartSec=900
+ExecStart=/usr/bin/podman run --rm --name migrations \
+    --pod-id-file %t/infisical.pod-id \
     --env-file=%E/state/app.env \
     --env-file=%E/state/secrets.env \
     --workdir /backend \
     ${INFISICAL_IMAGE} npm run migration:latest
-ExecStop=/usr/bin/podman stop --ignore --cidfile %t/migrations.ctr-id -t 10
-ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/migrations.ctr-id
-ExecReload=/usr/bin/podman kill -s HUP migrations
 SyslogIdentifier=%u
-PIDFile=%t/migrations.pid
-Type=forking
 
 [Install]
 WantedBy=default.target

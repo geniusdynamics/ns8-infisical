@@ -23,7 +23,7 @@ data = json.load(sys.stdin)
 POSTGRES_DB = data.get("POSTGRES_DB", "infisical")
 POSTGRES_USER = data.get("POSTGRES_USER", "infisical")
 POSTGRES_PASSWORD = data.get("POSTGRES_PASSWORD", "J5brHrAXFLQSif0K")
-POSTGRES_HOST = data.get("POSTGRES_HOST", "postgresql-app")
+POSTGRES_HOST = data.get("POSTGRES_HOST", "127.0.0.1")
 POSTGRES_PORT = data.get("POSTGRES_PORT", "5432")
 
 
@@ -39,13 +39,14 @@ agent.write_envfile("database.env", postgres_config)
 
 
 DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-REDIS_URL = "redis://redis-app:6379"
+REDIS_URL = "redis://127.0.0.1:6379"
 # Generate AUTH_SECRET
 
 
 
 
 rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
 SMTP_HOST = smtp_settings['host']
 SMTP_PORT = smtp_settings['port']
 SMTP_NAME = smtp_settings['username']
