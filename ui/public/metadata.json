@@ -1,9 +1,13 @@
 {
   "name": "infisical",
   "description": {
-    "en": "All-in-one platform to securely manage application configuration and secrets across your team and infrastructure."
+    "en": "All-in-one platform to securely manage application configuration and secrets across your team and infrastructure.",
+    "it": "Infisical gestisce in modo sicuro i segreti e la configurazione delle applicazioni per tutto il team."
   },
-  "categories": [],
+  "categories": [
+    "security",
+    "development"
+  ],
   "authors": [
     {
       "name": "Genius Dynamics",
