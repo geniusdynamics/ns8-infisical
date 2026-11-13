@@ -13,6 +13,7 @@ Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%E/state/environment
 WorkingDirectory=%E/state
 Restart=always
+RestartSec=10
 TimeoutStopSec=300
 ExecStartPre=/bin/mkdir -p config
 ExecStartPre=/bin/rm -f %t/infisical-app.pid %t/infisical-app.ctr-id
